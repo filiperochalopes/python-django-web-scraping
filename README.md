@@ -25,8 +25,13 @@ docker exec -it samuel_webscraping_djangoapp bash -c "cd /usr/src/app/app && pyt
 
 ## Realizando deploy
 
+Defina as variáveis de ambiente utilizadas na aplicação
 
-Primeiro suba o container
+```sh
+cp .env.example .env
+```
+
+Suba os containers docker
 
 ```sh
 docker-compose up -d
