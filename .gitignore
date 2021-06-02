@@ -1,0 +1,4 @@
+/node_modules
+_db.sqlite3
+/djangoapp/app/static
+.env

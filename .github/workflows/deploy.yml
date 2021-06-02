@@ -1,0 +1,62 @@
+name: Continuos deploy - CD
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v2
+      - name: Frontend Rsync
+        uses: easingthemes/ssh-deploy@v2.1.6
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          ARGS: '-avzhr --progress --delete --exclude api --exclude node_modules --exclude build'
+          SOURCE: ''
+          REMOTE_HOST: 162.214.108.8
+          REMOTE_USER: root
+          REMOTE_PORT: 22022
+          TARGET: /var/www/filipelopes.me
+      - name: Frontend build
+        uses: appleboy/ssh-action@master
+        with:
+          host: 162.214.108.8
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22022
+          script: |
+            whoami
+            cd /var/www/filipelopes.me
+            node --version
+            yarn --version
+            yarn && yarn build
+      - name: Backend Rsync
+        uses: easingthemes/ssh-deploy@v2.1.6
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          ARGS: '-avzhr --progress --delete --exclude adm --exclude staging'
+          SOURCE: 'api'
+          REMOTE_HOST: 162.214.108.8
+          REMOTE_USER: root
+          REMOTE_PORT: 22022
+          TARGET: /var/www/filipelopes.me/
+      - name: Backend deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: 162.214.108.8
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22022
+          script: |
+            whoami
+            cd /var/www/filipelopes.me/api
+            pyenv local filipelopes.me
+            pip install -r requirements.txt
+            supervisorctl reread
+            supervisorctl update
+            supervisorctl restart api_filipelopes_me
