@@ -22,7 +22,7 @@ from django.conf.urls.static import static
 from rest_framework import routers
 from rest_framework.schemas import get_schema_view
 
-from app.core.views import UserViewSet, GroupViewSet, scraping_dentalspeed, scraping_dentalcremer
+from app.core.views import UserViewSet, GroupViewSet, scraping_dentalspeed_selenium, scraping_dentalspeed_scrapy,  scraping_dentalspeed_rpa, scraping_dentalcremer
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
@@ -34,7 +34,9 @@ router.register(r'users', UserViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include(router.urls)),
-    re_path(r'api/v1/scraping/dentalspeed/(?P<query>[-\w]+)', scraping_dentalspeed),
+    re_path(r'api/v1/scraping/dentalspeed/(?P<query>[-\w]+)/selenium', scraping_dentalspeed_selenium),
+    re_path(r'api/v1/scraping/dentalspeed/(?P<query>[-\w]+)/scrapy', scraping_dentalspeed_scrapy),
+    re_path(r'api/v1/scraping/dentalspeed/(?P<query>[-\w]+)/rpa', scraping_dentalspeed_rpa),
     re_path(r'api/v1/scraping/dentalcremer/(?P<query>[-\w]+)', scraping_dentalcremer),
     path('openapi', get_schema_view(
         title="Web Scraping",

@@ -12,3 +12,7 @@ Pillow
 django-cors-headers
 pyyaml
 uritemplate
+requests
+beautifulsoup4
+scrapy
+selenium

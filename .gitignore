@@ -2,3 +2,10 @@
 _db.sqlite3
 /djangoapp/app/static
 .env
+
+rpa_python
+rpa_python.js
+rpa_python.log
+rpa_python.raw
+tagui_local.js
+geckodriver.log
