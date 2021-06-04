@@ -1,3 +1,9 @@
+```sh
+docker-compose build --no-cache
+docker-compose up -d
+firefox localhost:8089/docs
+```
+
 ### Realizando dump de banco de dados
 
 ```sh
