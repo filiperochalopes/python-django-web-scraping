@@ -102,6 +102,7 @@ def scraping_dentalspeed_selenium(request, query):
             'price': product.find_element_by_xpath('.//span[@itemprop="price"]').text
         })
     pprint(res)
+    driver.quit()
     time.sleep(1)
 
     return Response(res)
